@@ -1,0 +1,56 @@
+What is Node.js?
+  Before node, JS could not be used as a general purpose language. Node uses V8 internally.
+  Its a javascript runtime built on Chrome's V8 javascript engine. Hence we can now use JS outside of the
+  browser to build webservers that can access the file system and the database.
+  To conclude , node js helps us use JS on server side programming.
+
+  Chrome and node cannot read the JS code so they send the code to V8 engine and get back the results
+  which can be understood by them.
+
+  V8 is written in C++ due to which chrome and node are written majorly in C++ for easy binding. So when you run
+  something like document.querySelector on chrome, at runtime a C++ function does this job underneath.
+  Similarly, fs.readFile or os.platform run in node.js will be run by some C++ function underneath at runtime.
+
+  => node
+    > *repl where you can run code (read eval print loop)*
+    > window
+    > global
+    > document
+    > process
+    > process.exit()
+
+  Window is not defined for node instead we have global, why is that?
+  Cause chrome works with a window and node does not and similarly global is not defined on brower. So is document
+  with chrome which is not defined on node.
+  Similar to document, here we have process.
+
+Why to Use nodejs?
+    Nodejs uses an event-driven, non-blocking I/O model that makes it lightweight and efficient.
+    Node.js' package ecosystem , npm, is the largest ecosystem of open source libraries in the world.
+      --> Non-blocking I/O: Any operation involving comunication with outside world are I/O operations like accessing the DB,
+      the file syatem or getting some data from a server. What non-blocking I/O means that when nodejs is waitng for I/O
+      operations, code execution can continue.
+      --> Event-driven: Callbacks run after an event is complete or an event is fired, eg: I/O operations
+      --> npm is node package manager, a tool that was installed when you installed node on your system. npm is the world's
+      largest software registry.
+
+Reading Command line data
+  We always execute js files as node. So its basically command that you can optimise your js script to the way a shell script
+  behaves, like give options, commands etc.
+  Each command will have a set of options it needs and a handler.
+        const yargs = require('yargs');
+        console.log(process.argv)
+        console.log(yargs.argv)
+
+        OUTPUT-
+          [ '/Users/kirankumar/.nvm/versions/node/v11.11.0/bin/node',
+            '/Users/kirankumar/Documents/Tutorials/JS/NODE_JS/Andrew_mead/Project/notes-app/yargs',
+            'read',
+            '--title=hi' ]
+          { _: [ 'read' ], title: 'hi', '$0': 'yargs' }
+
+  As you can see in above code, we have process and yargs to get the command and options that were passed.
+
+  PROCESS: The process object is a global that provides information about, and control over, the current Node.js process (https://nodejs.org/api/process.html)
+  YARGS: A package that helps us parse the inputs , you can see above how it helps. If you use process then you must write your own parser.
+
