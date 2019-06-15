@@ -54,3 +54,15 @@ Reading Command line data
   PROCESS: The process object is a global that provides information about, and control over, the current Node.js process (https://nodejs.org/api/process.html)
   YARGS: A package that helps us parse the inputs , you can see above how it helps. If you use process then you must write your own parser.
 
+
+DEBUGGING
+  Its extremely simple,
+    1. add a 'debugger' in your code
+    2. run with inspect, which will open a debig console. "debug>"
+            node inspect app.js add --title="wbdwehd" --body="third"
+    3. Head over to chrome://inspect ,which opens the devices page and you know the rest.
+    4. Also add the folder and give access to your folder in chrome to vide all the folder contents.
+    6. After debugging, you can rerun the same debugger again.
+            debug> restart
+    7. Run (Ctrl + c) twice to end debugger.
+
