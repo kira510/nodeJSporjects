@@ -66,3 +66,18 @@ DEBUGGING
             debug> restart
     7. Run (Ctrl + c) twice to end debugger.
 
+
+Asynchronous Node.js (chapter 30)
+    Call Stack, Node APIs, event loops ?
+    JS is synchronous. Each line gets added to the call stack and gets executed, the asynchronous stuff like setTimout moves to the Node APIs
+    stack whenre it starts executing in parallel (registering an event with Node APis).
+    NODE APIS: DOM evnts, rest api calls, DB opearations
+    After the event in  is complete, the node api pushed the completed result to event loop.
+    Event loop each time checks if the call stack is empty, when its empty it will push the result from the callback queue to the call stack.
+    Thats it.
+    NOTE: Only after call stack is empty, the stuff in event loop gets executed.
+
+REQUEST vs HTTP/HTTPS modules
+    Why do we prefer to use external packages like request or axios or es6 fetch, casue this helps in request management very easy unlike the
+    node.js HTTP or HTTPS module.
+    In https module, response is received multiple times as abuffer and we must construct the data out of it. Too much code to write.
