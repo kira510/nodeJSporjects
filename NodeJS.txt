@@ -81,3 +81,27 @@ REQUEST vs HTTP/HTTPS modules
     Why do we prefer to use external packages like request or axios or es6 fetch, casue this helps in request management very easy unlike the
     node.js HTTP or HTTPS module.
     In https module, response is received multiple times as abuffer and we must construct the data out of it. Too much code to write.
+
+Hello Express JS
+  1. Express JS
+     Exports a function express that can be used to create an app.
+          const app = express();
+  2. app.use
+     This works like app.get and also can be used to server static files.
+          app.use(path, callbacks)
+      It takes multiple callbacks that are expected sequetially unless you call next in one of them.
+  3. express.static
+     Method used to serve static files. It takes in a path which can be constructed using the path module exposed by nodejs.
+          app.use(express.static(path.join(__dirname, '../public')));
+      __dirname is a build in variable that gives present directory where it is run from.
+      __filename : as simple as it is.
+  4. app.listen
+     It creates an http server that listens on the port you specify and takes a callbak function that gets called upon
+     server creation.
+  5. app.set
+     This is usually used to set name to a value, set(name, value)
+     ex:     app.set('view engine', hbs)
+     This tells express that from now on it must use hbs to render from views. By default, hbs looks for the view files from
+     the view folder in the home directory.
+     Note that since we have added the static route, any path access within hbs file automatically looks for it in public folder.
+     HBS is templating engine of handlebars for express.
