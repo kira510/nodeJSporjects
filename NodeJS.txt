@@ -105,3 +105,8 @@ Hello Express JS
      the view folder in the home directory.
      Note that since we have added the static route, any path access within hbs file automatically looks for it in public folder.
      HBS is templating engine of handlebars for express.
+  6. res.render(view [, locals] [, callback])
+     view: a string that is the file path of the view file to render. This can be an absolute path, or a path relative to the views setting. If the path does not contain a file extension,
+            then the view engine setting determines the file extension
+     locals: an object whose properties define local variables for the view.
+     NOOOOTE: the reason we use template engine like hbs is cause we can pass the dynamic varaibles.
