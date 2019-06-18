@@ -25,14 +25,15 @@ What is Node.js?
   Similar to document, here we have process.
 
 Why to Use nodejs?
-    Nodejs uses an event-driven, non-blocking I/O model that makes it lightweight and efficient.
-    Node.js' package ecosystem , npm, is the largest ecosystem of open source libraries in the world.
-      --> Non-blocking I/O: Any operation involving comunication with outside world are I/O operations like accessing the DB,
-      the file syatem or getting some data from a server. What non-blocking I/O means that when nodejs is waitng for I/O
-      operations, code execution can continue.
-      --> Event-driven: Callbacks run after an event is complete or an event is fired, eg: I/O operations
-      --> npm is node package manager, a tool that was installed when you installed node on your system. npm is the world's
-      largest software registry.
+  Nodejs uses an event-driven, non-blocking I/O model that makes it lightweight and efficient.
+  Node.js' package ecosystem , npm, is the largest ecosystem of open source libraries in the world.
+    --> Non-blocking I/O: Any operation involving comunication with outside world are I/O operations like accessing the DB,
+    the file syatem or getting some data from a server. What non-blocking I/O means that when nodejs is waitng for I/O
+    operations, code execution can continue.
+    --> Event-driven: Callbacks run after an event is complete or an event is fired, eg: I/O operations
+    --> npm is node package manager, a tool that was installed when you installed node on your system. npm is the world's
+    largest software registry.
+
 
 Reading Command line data
   We always execute js files as node. So its basically command that you can optimise your js script to the way a shell script
@@ -77,10 +78,12 @@ Asynchronous Node.js (chapter 30)
     Thats it.
     NOTE: Only after call stack is empty, the stuff in event loop gets executed.
 
+
 REQUEST vs HTTP/HTTPS modules
     Why do we prefer to use external packages like request or axios or es6 fetch, casue this helps in request management very easy unlike the
     node.js HTTP or HTTPS module.
     In https module, response is received multiple times as abuffer and we must construct the data out of it. Too much code to write.
+
 
 Hello Express JS
   1. Express JS
@@ -110,3 +113,16 @@ Hello Express JS
             then the view engine setting determines the file extension
      locals: an object whose properties define local variables for the view.
      NOOOOTE: the reason we use template engine like hbs is cause we can pass the dynamic varaibles.
+  7. Partials
+    HBS partials help us to share a web component across files. Also syntax is quite simple.
+    This commit will show you how simple the syntax is.
+  8. Styling
+    We are using flex box to contruct our site, which is good learning for css.
+  9. Restart Nodemon
+     => nodemon src/app.js -e js,hbs
+     By default, nodemon detects only the changes done on js files so make it listen to changes on hbs files also.
+
+
+
+
+
