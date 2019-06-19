@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
 const hbs = require('hbs');
+const geoCode = require('../utils/geocode');
+const forecast = require('../utils/forecast');
 
 //console.log(__dirname, __filename);
 const app = express();
@@ -16,7 +18,7 @@ app.use(express.static(publicDirectoryPath));
 
 app.get('', (req, res) => {
     res.render('index', {
-        title: 'FROM HBS',
+        title: 'Weather',
         name: 'Kiran'
     });
 });
@@ -36,9 +38,30 @@ app.get('/help', (req, res) => {
 });
 
 app.get('/weather', (req, res) => {
-    res.send({
-        forecast: 'Still hot',
-        location: 'Bengaluru'
+    let locationData;
+
+    if (!req.query.address) {
+        return res.send({
+            error: 'You must send a query param'
+        });
+    }
+    geoCode(req.query.address, (error, {latitude, longitude, location} = {}) => {
+        if (error) {
+            return res.send({ error: error });
+        }
+
+        locationData = location;
+
+        forecast(latitude, longitude, (error, message) => {
+            if (error) {
+                return res.send({ error: error });
+            }
+
+            res.send({
+                forecast: message,
+                location: locationData
+            });
+        });
     });
 });
 

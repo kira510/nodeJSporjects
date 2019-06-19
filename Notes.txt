@@ -1,4 +1,4 @@
-What is Node.js?
+esWhat is Node.js?
   Before node, JS could not be used as a general purpose language. Node uses V8 internally.
   Its a javascript runtime built on Chrome's V8 javascript engine. Hence we can now use JS outside of the
   browser to build webservers that can access the file system and the database.
@@ -121,6 +121,16 @@ Hello Express JS
   9. Restart Nodemon
      => nodemon src/app.js -e js,hbs
      By default, nodemon detects only the changes done on js files so make it listen to changes on hbs files also.
+
+Connecting UI with Backend
+  1. We simply add a form with input and button
+  2. Register an event listner on the form and make a request to the localhost when
+     the event is fired.
+  3. FETCH
+     This is a browser side interface to make requests which can run only in the browser.
+     Note that we cannot make requests without CORS headers from the browser instead we have
+     to call via our backend express server as you can see in this commit.
+
 
 
 
