@@ -132,6 +132,11 @@ Connecting UI with Backend
      to call via our backend express server as you can see in this commit.
 
 
+DEPLOYING with heroku
+  1. https://devcenter.heroku.com/articles/git
+     Set up a remote repo on the heroku and push the code there and it will start up.
+     It will look for nodejs apps with package.json and tun "npm start"
+
 
 
 
