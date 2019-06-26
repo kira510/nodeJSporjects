@@ -137,6 +137,74 @@ DEPLOYING with heroku
      Set up a remote repo on the heroku and push the code there and it will start up.
      It will look for nodejs apps with package.json and tun "npm start"
 
+SQL vs NoSQL
+  1. SQL: data stored as table, ie in the from fo rows
+     NoSQL: data stored as collection (array of json), i.e as documents.
+  2. Individual items are stored as column in rows
+     Each individual item is called field.
+
+Setup MongoDB for local
+  1. Download the mongodb server and move it to your home directory. https://www.mongodb.com/download-center/community
+  2. Create a folder mongodb-data near it to save the data in there.
+  3. Start the server:
+      --> mongodb-server/bin/mongod --dbpath=/Users/kirankumar/mongodb-data
+  4. Robo 3T
+     GUI for MongoDB with embedded shell (https://robomongo.org/)
+     Download this and install in your Mac
+  5. You will need a driver to connect to database and perfrom CRUD operations,
+     https://docs.mongodb.com/ecosystem/drivers/node/
+     http://mongodb.github.io/node-mongodb-native/3.2/api/
+  6. Install the mongodb nodejs driver, https://github.com/mongodb/node-mongodb-native
+     --> npm install mongodb@3.1.10
+
+Connecting to mongoddb,
+  (please note these function can be used with promise or with callback, you know why we prefer promise.)
+  1. Code looks like,
+        MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) => {
+          if (error) {
+              return console.log('Unable to connect to database!');
+          }
+
+          console.log('Connected correctly!');
+        });
+    useNewUrlParser is used to parse connectionURL peoperly. It receives a callback function which implies
+    that this is an asynchronous operation. And NOTE that, more than one connection is opened when we write
+    this code.
+
+    The client in the above callback is of type MongoClient, which has a method db to get the db.
+    Use this db to get a collection and perfrom CRUD operations on it. Docs is your friend here.
+        const db = client.db('task-manager');
+        const taskCollection = db.collection('tasks');
+        taskCollection.insertMany([>json array], (error, results) => {});
+
+  2. ObjectId
+      DOCS:  http://mongodb.github.io/node-mongodb-native/3.2/api/ObjectID.html
+             https://docs.mongodb.com/manual/reference/method/ObjectId/
+      Mongodb also provides ObjectId class that can be used to generate an id.
+          const id = new ObjectId();
+          console.log(id.id); //buffer string (bytes)
+      NOTE: Mongodb is defensively programmed, even if you dont give new, mongodb adds it.
+      The id is stored in the form of an ObjectID, what you see in Robot is a function ObjectId taking
+      the id in string value which is just a visual representation for us.
+  3. Read operation
+    a. findOne:  returns an object, takes a query.
+        If there are multiple, returns the first one.
+    b. find:  returns a Cursor (http://mongodb.github.io/node-mongodb-native/3.2/api/Cursor.html)
+       Use toArray, count, map, limit and all to make your query as you want.
+  4. Update operation
+    This is quite tricy, same as before but you have to provide additinal update options to update the
+    data, mainly the update opeartors, the second link below will help you.
+    Docs is your friend.
+    https://docs.mongodb.com/manual/reference/method/db.collection.updateOne/#db.collection.updateOne
+    https://docs.mongodb.com/manual/reference/operator/update/
+    https://mongodb.github.io/node-mongodb-native/3.3/api/Collection.html#updateMany
+  5. Delete
+    Well nothing to say, you know it all.
+
+
+
+
+
 
 
 
