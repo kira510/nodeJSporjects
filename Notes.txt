@@ -219,17 +219,32 @@ Using Mongoose
     => npm install mongoose
   2. Require it and use to connect it to a db,
     mongoose.connect(<url>, {options}) => returns a promise
-    Two mandatory options to explore, useNewUrlParser and useCreateIndex.
+    Two mandatory options to explore and include as options, useNewUrlParser and useCreateIndex.
   3. Use model to define the structure of document in a collection,
       const Task = mongoose.model(<collection name>, <schema>);
     Schema is just a json object that defines the fields. Type of the field and also we canset up
     validation. Some are available as inbuild options otherwise we can write custom using validate
     function.
+    docs: --> https://mongoosejs.com/docs/schematypes.html , https://mongoosejs.com/docs/models.html
+    Validator: -> https://github.com/validatorjs/validator.js
+    Validation: https://docs.mongodb.com/manual/core/schema-validation/#specify-validation-rules
   4. Use the famous npm validator package to write validation, reduces your code and errors.
   5. Create a document and save it in the collection,
       const task1 = new Task({required_fields});
       task1.save();
   Checkout /src/db/maongoose.js for examples.
+
+Creating and using end points
+  1. set express to use express.json(), otherwise the request body will be undefined.
+     app.use(express.json());
+  2. A simple app.post or app.get method will help you create an endpoint,
+      app.post('<ulr to match>', cb(req, res) {...})
+  3. Callback takes req and res, make sure you send a response and with appropriate code.
+  4. Select appropriate code from,
+     --> https://httpstatuses.com/
+
+Perfroming CRUD operations on Mongoose models
+  1. Refer to https://mongoosejs.com/docs/api.html#Model
 
 
 
