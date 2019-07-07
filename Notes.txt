@@ -246,6 +246,24 @@ Creating and using end points
 Perfroming CRUD operations on Mongoose models
   1. Refer to https://mongoosejs.com/docs/api.html#Model
 
+Update endpoint
+  We can use post but patch seems to give more meaning to updating some document form the db.
+      app.patch
+  When we need to update a user, we need to first check if the field recieved from request can be updated if
+  it cant then nothing happens cause findByIdandUpdate will not do anything.
+        const user = await Users.findByIdAndUpdate({ _id: req.params.id }, req.body, {
+            new: true,
+            runValidators: true
+        });
+  So the below checks are done,
+    1. Check if the field can be updated
+    2. try to find the user by id and update
+    3. set oprions new and runValidators to true, otherwise the user output will be the original one before update without any
+       validation done on it.
+    4. check if an user was returned for that id, findByIdandUpdate does not throw error if it doesn't find any data,
+       instead it returns null.
+    5. Handle catch
+
 
 
 

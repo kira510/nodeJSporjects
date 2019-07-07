@@ -7,7 +7,8 @@ const Tasks = mongoose.model('Tasks', {
         required: true
     },
     description: {
-        type: String
+        type: String,
+        minlength: 6
     },
     status: {
         type: Boolean,
