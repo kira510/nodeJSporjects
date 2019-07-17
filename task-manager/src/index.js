@@ -1,17 +1,42 @@
-const express = require('express');
-require('./db/mongoose');
-const usersRouter = require('../src/routers/user');
-const tasksRouter = require('../src/routers/task');
+const express = require('express')
+require('./db/mongoose')
+const userRouter = require('./routers/user')
+const taskRouter = require('./routers/task')
 
-const app = express();
-const port = process.env.PORT || 3000;
+const app = express()
+const port = process.env.PORT || 3000
 
-app.use(express.json()); //if this is not used then req.body is undefined.
-app.use(usersRouter);
-app.use(tasksRouter);
+// app.use((req, res, next) => {
+//     if (req.method === 'GET') {
+//         res.send('GET requests are disabled')
+//     } else {
+//         next()
+//     }
+// })
 
+// app.use((req, res, next) => {
+//     res.status(503).send('Site is currently down. Check back soon!')
+// })
 
+app.use(express.json())
+app.use(userRouter)
+app.use(taskRouter)
 
 app.listen(port, () => {
-    console.log('Successfully started app!')
-});
+    console.log('Server is up on port ' + port)
+})
+
+const Task = require('./models/task')
+const User = require('./models/user')
+
+const main = async () => {
+    // const task = await Task.findById('5c2e505a3253e18a43e612e6')
+    // await task.populate('owner').execPopulate()
+    // console.log(task.owner)
+
+    const user = await User.findById('5d2efecc11ea9471b2e44a33')
+    await user.populate('tasks').execPopulate()
+    //console.log(user.tasks)
+}
+
+main()

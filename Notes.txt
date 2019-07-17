@@ -170,6 +170,7 @@ Connecting to mongoddb,
     useNewUrlParser is used to parse connectionURL peoperly. It receives a callback function which implies
     that this is an asynchronous operation. And NOTE that, more than one connection is opened when we write
     this code.
+    useFindAndModify: false; https://mongoosejs.com/docs/deprecations.html (used to prevent deprecation warnings on some methods)
 
     The client in the above callback is of type MongoClient, which has a method db to get the db.
     Use this db to get a collection and perfrom CRUD operations on it. Docs is your friend here.
@@ -263,6 +264,85 @@ Update endpoint
     4. check if an user was returned for that id, findByIdandUpdate does not throw error if it doesn't find any data,
        instead it returns null.
     5. Handle catch
+
+Mongoose middleware
+  Middleware allows you to register some code to run before or after a lifecycle event for your model.
+  The example below calls pre with the 'save' lifecycle event. This registers a function to run just before users are saved,
+        userSchema.pre('save', async function (next) {
+          console.log('Pre called!');
+          let user = this;
+
+          if (user.isModified('password')) {
+            user.password = await bcrypt.hash(user.password, 8);
+          }
+
+          next();
+        });
+  The pre will be called only if you use the save method directly on the model, using findByIdAndUpdate or any fucntion that
+  does direct operation directly runs on the DB due to which we need to provide runValidator and new option.
+  DOCS: https://mongoosejs.com/docs/middleware.html
+
+JWT
+  DOCS: https://github.com/auth0/node-jsonwebtoken
+  Json web token is basically a token that you generate which is used for authentication.
+      const token = jwt.sign({ _id: '12345' }, 'mysecretkey', { expiresIn: '10s'});
+      const payload = jwt.verify(token, 'mysecretkey');
+  Extremely easy to use.
+  The 'sign' method takes the payload and a secret to generate a token. Ex:
+    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiIxMjM0NSIsImlhdCI6MTU2Mjc4MzUzMCwiZXhwIjoxNTYyNzgzNTQwfQ.j47U0kFeUvuegpBevgzc8SI95wGo9JKY40TAK00GWqQ
+  The token has three parts separated by period,
+      1. first part specifies the type and the algorithm used. // {"alg":"HS256","type":"JWT"}
+      2. second one has the payload with the timestamp when it was created. //{"_id":"12345","iat":1562783530,"exp":1562783540}
+      3. signature which is used to verify the token.
+  The first two are Base64 encoded, you can decode them from https://www.base64decode.org/ .
+
+Login/logout and other requests
+  When user logs in, our middleware will find that particular user and creates a JWT token for him which is sent back along with the response.
+  Making ither request:
+  On UI side we probably store this in local storage and the we add this as authorization header for each request.
+  Header,
+       Authorization" : "Beared <token>"
+  These requests must be passed into and auth middleware where we verify the token and upon success, we store the token and
+  the user in the request object.
+
+Hiding Private data
+  When we send the user data, res.send({ user });
+  JSON.stringfy is called on the user data which internally cals the toJSON function so overriding this function can help us hide important
+  data, EX:
+      userSchema.methods.toJSON = function () {
+        const user = this;
+        const userObject = user.toObject();
+
+        delete userObject.password;
+        delete userObject.tokens;
+
+        return userObject;
+      };
+
+Relating two models
+  There are two ways to link two models, first way is to store the object id one of them in other and add the reference model.
+  Where type must be specified as an ObjectID for which we need to use, mongoose.Schema.Types.ObjectId
+      Ex: owner: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: 'User'
+          }
+
+  Now to link user to the tasks , we can save array of tasks into user but instead we can add it as virtual property.
+      userSchema.virtual('tasks', {
+        ref: 'Task',
+        localField: '_id',
+        foreignField: 'owner'
+      })
+
+  Then we can populate the tasks field in user or the owner field in either of the two using the populate method.
+      await user.populate('tasks').execPopulate();
+        This will add a tasks field to user that needs to be accessed separately via user.tasks, doing
+            res.send(user);   // will just send the user object without tasks so you must,
+            res.send(user.tasks);
+  Similarly to fetch owner details on task you must do the below,
+      await task.populate('owner').execPopulate();
+      console.log(task.owner);
 
 
 
