@@ -404,6 +404,24 @@ Uplading/saving/deleteing files
       await req.user.save();
     When you make a filed undefined then this filed is removed from the database.
 
+  NOTE: While sending the file back you must set the header to have to content-type to image/png,
+          res.set('Content-Type', 'image/png').send(user.avatar)
+
+Sending Emails
+  sendgrid itself provides a nodejs package that you can use,
+      @sendgrid/mail
+  It has quite good documentation that you can use.
+
+Storing secret keys
+  To store the secret key, use an env file like i have attached (/src/config/dev.env), please note that this must not be pushed to github.
+  Instead store it in password safe and provide it to devs when needed and add to git.ignore so you dont commit it by mistake.
+  docs: https://app.sendgrid.com/guide/integrate/langs/nodejs
+  A package we use to read this file is,
+      => npm i env-cmd --save-dev
+  And add this to you nmp scripts as,
+      "dev": "env-cmd ./src/config/dev.env nodemon src/index.js"
+  Now your secrets are safe.
+
 
 
 
