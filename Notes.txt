@@ -361,7 +361,7 @@ Filtering and pagination
         https://mongoosejs.com/docs/api.html#model_Model.find
 
 Sorting
-  What does a request lok like?
+  What does a request look like?
     request: /tasks?sortBy=createdAt:desc
         if (req.query.sortBy) {
           const parts = req.query.sortBy.split(':');
@@ -376,6 +376,33 @@ Sorting
                 sort
             }
         }).execPopulate()
+
+Uplading/saving/deleteing files
+  We use a quite popular package called MULTER. It can be passsed as a middleware to a route to maange file uploads.
+  It also can be used for validation which is very helpful.
+      const upload = multer({
+          //dest: path.join(__dirname, '..', 'avatars'),
+          limits: {
+              fileSize: 1000000
+          },
+          fileFilter(req, file, cb) {
+              if (!file.originalname.match(/\.(png|jpg|jpeg)$/)) {
+                  return cb(new Error('Please provide jpg, jpeg or png'));
+              }
+
+              cb(undefined, true)
+          },
+          preservePath: true
+      })
+
+  If you just specify a destination like images then an images folder is created in the main directory where src is present.
+  Docs that will help you use multer: https://github.com/expressjs/multer#readme
+  Use this as a middleware by calling single method on upload.
+  Then we can use SHARP to resize and also convert all of them to the type of file you need.
+  Deleting:
+      req.user.avatar = undefined
+      await req.user.save();
+    When you make a filed undefined then this filed is removed from the database.
 
 
 
