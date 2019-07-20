@@ -422,10 +422,17 @@ Storing secret keys
       "dev": "env-cmd ./src/config/dev.env nodemon src/index.js"
   Now your secrets are safe.
 
+Testing NodeJS app
+  This is done using Jest.js and supertest package.
+  Docs: https://jestjs.io/docs/en/expect
+        https://www.npmjs.com/package/supertest
 
-
-
-
-
-
+  Only thing little confusing aournd this is the setup and how you run it. Plus if you get weird errors then try
+  bringing your node version to 11.10.0
+      nvm install v11.10.0
+  Concepts:
+    1. Use supertest for async code
+    2. mock linraries by __mocks__
+    3. setup an env for tests
+    4. fixtures
 
